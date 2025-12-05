@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Dashboard - Library Portal</title>
+    <link rel="stylesheet" href="assets/style.css" />
+  </head>
+  <body>
+    <div class="navbar">
+      <h2>📚 Library Portal</h2>
+      <div>
+        <span id="userEmail"></span> |
+        <button id="logoutBtn" class="btn small">Logout</button>
+      </div>
+    </div>
+
+    <div class="container">
+      <h2>Your Dashboard</h2>
+      <p>Welcome! Browse available books:</p>
+
+      <div id="booksList" class="list"></div>
+    </div>
+
+    <script type="module">
+      import { requireLogin } from "./js/app.js";
+      requireLogin();
+    </script>
+
+    <script type="module" src="js/books.js"></script>
+    <script type="module" src="js/app.js"></script>
+  </body>
+</html>

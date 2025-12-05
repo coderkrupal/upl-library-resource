@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Login - Library Portal</title>
+    <link rel="stylesheet" href="assets/style.css" />
+  </head>
+  <body>
+    <div class="container small-box">
+      <h2>🔐 Login</h2>
+
+      <input type="text" id="loginEmail" placeholder="Email" />
+      <input type="password" id="loginPassword" placeholder="Password" />
+
+      <button id="loginBtn" class="btn">Login</button>
+
+      <p id="loginError" class="error"></p>
+    </div>
+
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+      import {
+        getAuth,
+        signInWithEmailAndPassword,
+      } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+      import {
+        getDatabase,
+        ref,
+        set,
+      } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyAeDNNr6HtZ64sGdu-cKpTORFyjMtD900E",
+        authDomain: "resourceupl.firebaseapp.com",
+        databaseURL: "https://resourceupl-default-rtdb.firebaseio.com",
+        projectId: "resourceupl",
+        storageBucket: "resourceupl.appspot.com",
+        messagingSenderId: "189538601900",
+        appId: "1:189538601900:web:2ba51955b12c1057da4809",
+        measurementId: "G-MEKWWTNFF2",
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth(app);
+      const db = getDatabase(app);
+
+      document.getElementById("loginBtn").addEventListener("click", () => {
+        const email = loginEmail.value;
+        const password = loginPassword.value;
+
+        signInWithEmailAndPassword(auth, email, password)
+          .then((userCredential) => {
+            alert("Login success!");
+
+            // Save login event to database
+            set(ref(db, "logins/" + userCredential.user.uid), {
+              email: email,
+              time: new Date().toString(),
+            });
+          })
+          .catch((error) => {
+            loginError.innerText = error.message;
+          });
+      });
+    </script>
+  </body>
+</html>
